@@ -23,12 +23,20 @@ function prompt {
   "`n${DEEP_BLUE}#${ORIG} $username @ ${computer_name} ${GRAY}in${ORIG} $path $time ${return_code}`n${RED}PS${ORIG}> "
 }
 
-Set-PSReadLineKeyHandler -Chord UpArrow -Function HistorySearchBackward
+Set-PSReadLineKeyHandler -Chord UpArrow -ScriptBlock {
+    [Microsoft.PowerShell.PSConsoleReadLine]::HistorySearchBackward()
+    [Microsoft.PowerShell.PSConsoleReadLine]::EndOfLine()
+}
+Set-PSReadLineKeyHandler -Chord DownArrow -ScriptBlock {
+    [Microsoft.PowerShell.PSConsoleReadLine]::HistorySearchForward()
+    [Microsoft.PowerShell.PSConsoleReadLine]::EndOfLine()
+}
 Set-PSReadlineKeyHandler -Chord Ctrl+a -Function BeginningOfLine
 Set-PSReadlineKeyHandler -Chord Ctrl+e -Function EndOfLine
 Set-PSReadLineKeyHandler -Chord Ctrl+w -Function BackwardDeleteWord
 Set-PSReadLineKeyHandler -Chord Alt+f -Function ForwardWord
 Set-PSReadLineKeyHandler -Chord Alt+b -Function BackwardWord
+Set-PSReadlineKeyHandler -Key Ctrl+d -Function DeleteCharOrExit 
 
 
 $ssh_config = "~/.ssh/config"
