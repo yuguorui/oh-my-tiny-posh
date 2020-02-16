@@ -44,6 +44,6 @@ Register-ArgumentCompleter -Native -CommandName ssh -ScriptBlock {
     param($hostName)
     $hosts = @()
     if (Test-Path $ssh_config -PathType Leaf) {
-      return Select-String -path $ssh_config "Host (\w*${hostName}\w*)" -AllMatches | Foreach-Object {$_.Matches} | Foreach-Object {$_.Groups[1].Value}
+      return Select-String -path $ssh_config "Host ([\w-]*${hostName}[\w-]*)" -AllMatches | Foreach-Object {$_.Matches} | Foreach-Object {$_.Groups[1].Value}
     }
 }
